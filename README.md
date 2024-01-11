@@ -8,6 +8,6 @@ The schema was then imported from quickdatabasediagrams and slightly tweaked to 
 The quotations on table and column names were removed, and the primary and foreign keys were declared in a more readable and efficient way. 
 The data from the CSV files was then imported into these tables.
 ## Data analysis
-The tables necessary for analysis were then created in Postgres SQL from the original tables above. 
+The tables necessary for analysis were then created in PostgreSQL from the original tables above. 
 The code can be found in the Analysis.SQL file.
 The data used can be found in the data folder. 
