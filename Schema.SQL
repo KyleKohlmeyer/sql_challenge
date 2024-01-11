@@ -1,34 +1,57 @@
-mployees
--
-Emp_no INTEGER PK
-Emp_title_id VARCHAR FK >- titles.Title_id
-Birth_date VARCHAR
-First_name VARCHAR
-Last_name VARCHAR
-Sex VARCHAR
-Hire_date VARCHAR
+-- Reset tables in case they already exist
+DROP TABLE IF EXISTS employees, departments, dept_emp, dept_manager, salaries, titles;
 
-departments
--
-Dept_no VARCHAR PK
-Dept_name VARCHAR
+-- Create the new tables using the Entity Relationship Diagram
+-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- Link to schema: https://app.quickdatabasediagrams.com/#/d/2JWmAI
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
-dept_emp
--
-Emp_no INTEGER FK >- employees.EMP_no
-Dept_no VARCHAR FK >- departments.Dept_no
+-- Edited export of ERD to simplified primary and foreign key designations
+-- Removed quotes from table names and columns
 
-dept_manager
--
-Dept_no VARCHAR FK >- departments.Dept_no
-Emp_no INTEGER FK >- employees.EMP_no
+CREATE TABLE titles (
+    Title_id VARCHAR(5) NOT NULL,
+    Title VARCHAR(30) NOT NULL,
+    PRIMARY KEY (Title_id)
+);
 
-salaries
--
-Emp_no INTEGER FK - employees.EMP_no
-Salary INTEGER
+CREATE TABLE employees (
+    Emp_no INTEGER NOT NULL,
+    Emp_title_id VARCHAR(10) NOT NULL,
+    Birth_date VARCHAR(15) NOT NULL,
+    First_name VARCHAR(30) NOT NULL,
+    Last_name VARCHAR(30) NOT NULL,
+    Sex VARCHAR(1) NOT NULL,
+    Hire_date VARCHAR(15) NOT NULL,
+	PRIMARY KEY (Emp_no),
+	FOREIGN KEY (Emp_title_id) References titles(Title_id)
+);
 
-titles
--
-Title_id VARCHAR PK
-Title VARCHAR
+CREATE TABLE departments (
+    Dept_no VARCHAR(4) NOT NULL,
+    Dept_name VARCHAR(30) NOT NULL,
+    PRIMARY KEY (Dept_no)
+);
+
+CREATE TABLE dept_emp (
+    Emp_no INTEGER NOT NULL,
+    Dept_no VARCHAR(4) NOT NULL,
+	FOREIGN KEY (Emp_no) References employees(Emp_no),
+	FOREIGN KEY (Dept_no) References departments(Dept_no)
+);
+
+CREATE TABLE dept_manager (
+    Dept_no VARCHAR(4) NOT NULL,
+    Emp_no INTEGER NOT NULL,
+	FOREIGN KEY (Dept_no) References departments(Dept_no),
+	FOREIGN KEY (Emp_no) References employees(Emp_no)
+);
+
+CREATE TABLE salaries (
+    Emp_no INTEGER NOT NULL,
+    Salary INTEGER NOT NULL,
+	FOREIGN KEY (Emp_no) References employees(Emp_no)
+);
+
+-- The data was imported from the CSV files at this point
+-- It is worth doing select * for every table to ensure the data was imported
