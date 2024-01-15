@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS employees, departments, dept_emp, dept_manager, salaries, t
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 -- Edited export of ERD to simplified primary and foreign key designations
+-- Added composite keys to tables without previous primary keys
 -- Removed quotes from table names and columns
 
 CREATE TABLE titles (
@@ -37,21 +38,24 @@ CREATE TABLE dept_emp (
     Emp_no INTEGER NOT NULL,
     Dept_no VARCHAR(4) NOT NULL,
 	FOREIGN KEY (Emp_no) References employees(Emp_no),
-	FOREIGN KEY (Dept_no) References departments(Dept_no)
+	FOREIGN KEY (Dept_no) References departments(Dept_no),
+	PRIMARY KEY (Emp_no, Dept_no)
 );
 
 CREATE TABLE dept_manager (
     Dept_no VARCHAR(4) NOT NULL,
     Emp_no INTEGER NOT NULL,
 	FOREIGN KEY (Dept_no) References departments(Dept_no),
-	FOREIGN KEY (Emp_no) References employees(Emp_no)
+	FOREIGN KEY (Emp_no) References employees(Emp_no),
+	PRIMARY KEY (Emp_no, Dept_no)
 );
 
 CREATE TABLE salaries (
-    Emp_no INTEGER NOT NULL,
     Salary INTEGER NOT NULL,
-	FOREIGN KEY (Emp_no) References employees(Emp_no)
+	Emp_no INTEGER NOT NULL,
+	FOREIGN KEY (Emp_no) References employees(Emp_no),
+	PRIMARY KEY (Salary, Emp_no)
 );
 
--- The data was imported from the CSV files at this point
--- It is worth doing select * for every table to ensure the data was imported
+-- The data was imported after this step
+-- Make sure to check if it was imported correctly
